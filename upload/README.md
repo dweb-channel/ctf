@@ -61,7 +61,10 @@ $c=strrev($b);
 ?>
 ```
 
+
+
+
 ### 其他资料
 
 [yinwc](https://yinwc.github.io/2020/04/21/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/#/%E5%88%A9%E7%94%A8RTLO)
-[狼组](https://wiki.wgpsec.org/knowledge/web/fileuploads.html)
+[SecIN社区](https://www.cnblogs.com/SecIN/p/17055942.html)
