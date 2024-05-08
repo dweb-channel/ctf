@@ -2,22 +2,23 @@
 
 有的时候自动化会被禁止使用，比如一些删除和插入，会导致数据库被破坏。
 
-### 大佬文章推荐
-
-[肖洋肖恩、](https://www.cnblogs.com/-mo-/p/12730682.html)
-
 ## 常用的 playload
 
-### 注释
+以下为常见的技巧，但是每次注入的技巧都不太一样，基本的技巧具体查看示例[sqli-libs](./sqli-libs.md)
+
+### 常见的注入点
+
+- GET/POST/PUT/DELETE参数
+- [X-Forwarded-For请求协议头](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)
+- 文件名
+
+### 测试注入点
+
+起手先查是否有 sql 注入漏洞，以下是基于注释的 playload。
 
 ```sql
 or 1=1--+
 'or 1=1--+
-"or 1=1--+
-)or 1=1--+
-')or 1=1--+
-") or 1=1--+
-"))or 1=1--+
 --+ 可以用#替换，url 提交过程中 Url 编码后的#为%23
 --+ SELECT * FROM users WHERE id=''or 1=1--+' LIMIT 0,1
 ```
